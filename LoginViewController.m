@@ -59,13 +59,6 @@
 
 //总店登录按钮
 - (IBAction)HeadquartersBtnClick:(id)sender {
-//    UIStoryboard *loginStoryboard = [UIStoryboard storyboardWithName:@"Login" bundle:[NSBundle mainBundle]];
-//    RegisterViewController *vc = [loginStoryboard instantiateViewControllerWithIdentifier:@"register"];
-//    [vc setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-//    [vc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-//    vc.loginType = @"2";
-//    [self presentViewController:vc animated:YES completion:nil];
-//    [self.view addSubview:vc.view];
 
     LoginSegmentViewController *segmentVC = [[LoginSegmentViewController alloc] init];
     segmentVC.loginType = @"2";
