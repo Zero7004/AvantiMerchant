@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="reply" id="iN0-l3-epB" customClass="replyView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ZO-ZO-ac6">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Uk-M5-mM0">
+                            <rect key="frame" x="5" y="5" width="310" height="50"/>
+                            <color key="backgroundColor" red="0.98039484024047852" green="0.98039484024047852" blue="0.98039484024047852" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSV-UX-tkT">
+                            <rect key="frame" x="320" y="12" width="50" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="8el-CJ-j2h"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <state key="normal" title="发送">
+                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.98039484024047852" green="0.98039484024047852" blue="0.98039484024047852" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="lSV-UX-tkT" firstAttribute="centerY" secondItem="2Uk-M5-mM0" secondAttribute="centerY" id="3Xd-Dw-auA"/>
+                        <constraint firstItem="2Uk-M5-mM0" firstAttribute="top" secondItem="5ZO-ZO-ac6" secondAttribute="top" constant="5" id="6ul-ZE-z2b"/>
+                        <constraint firstAttribute="trailing" secondItem="lSV-UX-tkT" secondAttribute="trailing" constant="5" id="8CD-KV-IiS"/>
+                        <constraint firstItem="2Uk-M5-mM0" firstAttribute="leading" secondItem="5ZO-ZO-ac6" secondAttribute="leading" constant="5" id="Pwx-Bp-KhC"/>
+                        <constraint firstItem="2Uk-M5-mM0" firstAttribute="trailing" secondItem="lSV-UX-tkT" secondAttribute="leading" constant="-5" id="axK-Zp-ZPW"/>
+                        <constraint firstItem="2Uk-M5-mM0" firstAttribute="centerY" secondItem="5ZO-ZO-ac6" secondAttribute="centerY" id="u9p-cn-AGa"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="5ZO-ZO-ac6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Wfh-fN-1a2"/>
+                <constraint firstItem="5ZO-ZO-ac6" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="aDD-Xb-JPo"/>
+                <constraint firstItem="5ZO-ZO-ac6" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="mua-Bi-noz"/>
+                <constraint firstItem="5ZO-ZO-ac6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vKw-OC-lDK"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="content" destination="2Uk-M5-mM0" id="AR8-FF-HFH"/>
+                <outlet property="senderBtn" destination="lSV-UX-tkT" id="CGI-nW-inw"/>
+            </connections>
+            <point key="canvasLocation" x="34.5" y="-250.5"/>
+        </view>
+    </objects>
+</document>
