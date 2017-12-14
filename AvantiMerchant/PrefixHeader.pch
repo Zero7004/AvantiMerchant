@@ -9,7 +9,10 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-#import "Config.h"
+#import<Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "config.h"
+#import "myConfig.h"
 #import "AppDelegate.h"
 #import "Util.h"
 #import "MBProgressHUD.h"
@@ -19,18 +22,6 @@
 #import "VPImageCropperViewController.h"
 #import "KeyChain.h"
 
-
-//#import "SDWebImage/UIImageView+WebCache.h"
-
-//static inline CGFloat FontSize(CGFloat fontSize){
-//    if (SCREEN_WIDTH==320) {
-//        return fontSize-2;
-//    }else if (SCREEN_WIDTH==375){
-//        return fontSize;
-//    }else{
-//        return fontSize+2;
-//    }
-//}
 
 
 

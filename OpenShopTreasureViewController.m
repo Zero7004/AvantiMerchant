@@ -25,7 +25,11 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"阿凡提商家";
     [self initUI];
-    [self initBottomView];
+    
+    //判断是否是总店登录
+    if ([[DEFAULT objectForKey:@"LoginType"] isEqualToString:@"2"]) {
+        [self initBottomView];
+    }
 }
 
 //设置底部按钮
@@ -61,17 +65,20 @@
 //获取图像
 - (UIImage *)getImage
 {
-    //UIImage *img = [UIImage imageNamed:@"us@2x.png"];
-    // UIImageView *imgview = [[UIImageView alloc] init];
-    // imgview.image = img;
-    // imgview.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"us@2x.png" ofType:nil];//图像的路径
+    //图像的路径
     UIImage *image = [UIImage imageNamed:@"sjrz"];
     return image;
 }
 
 -(void)initUI{
-    _scrollview = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 104)];
+    _scrollview = [[UIScrollView alloc] init];
+    //判断是否是总店登录
+    if ([[DEFAULT objectForKey:@"LoginType"] isEqualToString:@"2"]) {
+        _scrollview.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 104);
+    }
+    else{
+        _scrollview.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 104 + 40);
+    }
     _scrollview.backgroundColor = [UIColor whiteColor];
     _scrollview.delegate = self;
     [self.view addSubview:_scrollview];

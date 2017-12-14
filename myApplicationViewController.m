@@ -236,12 +236,12 @@
         [_hud hideAnimated:YES];
         
         if (responseObject != nil) {
-            if ([responseObject[@"res"] isEqual:@"success"]) {
+            if ([responseObject[@"res"] isEqual:@"1"]) {
                 _array = responseObject[@"data"];
                 [self.tableView reloadData];
             }
             else{
-                [Util toastWithView:self.navigationController.view AndText:@"获取申请列表失败"];
+//                [Util toastWithView:self.navigationController.view AndText:@"获取申请列表失败"];
             }
         }
         else{

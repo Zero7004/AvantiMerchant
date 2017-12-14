@@ -11,8 +11,9 @@
 
 #import "SelectShopViewController.h"
 #import "ShopTableViewCell.h"
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface SelectShopViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface SelectShopViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 
@@ -20,9 +21,22 @@
 
 @property (strong, nonatomic) NSArray *shopArray;
 
+@property (nonatomic, getter=isLoading)BOOL loading;
+
+@property (strong, nonatomic) MBProgressHUD *hud;
+
 @end
 
 @implementation SelectShopViewController
+
+- (void)setLoading:(BOOL)loading
+{
+    if (self.loading == loading) {
+        return;
+    }
+    _loading = loading;
+    [self.tableView reloadEmptyDataSet];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,10 +54,14 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = BG_COLOR;
-    [self.view addSubview:self.tableView];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"ShopTableViewCell" bundle:nil] forCellReuseIdentifier:@"ShopTableViewCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self.tableView setEmptyDataSetDelegate:self];
+    [self.tableView setEmptyDataSetSource: self];
+
+    [self.view addSubview:self.tableView];
 
 }
 
@@ -307,25 +325,105 @@
 #pragma mark - 接口
 //获取总店所有商店信息
 -(void)postGetBossShopAllShop{
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     NSString *url = [API stringByAppendingString:@"BoosShop/allShop"];
     NSDictionary *dic = @{@"userId":[AppDelegate APP].user.userLoginId};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager POST:url parameters:dic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        self.loading = NO;
+        [_hud hideAnimated:YES];
         NSLog(@"获取全部商店信息 %@", responseObject);
         if (responseObject != nil) {
-            _shopArray = responseObject;
-            [self.tableView reloadData];
+            NSString *res = [NSString stringWithFormat:@"%@", responseObject[@"res"]];
+            if ([res isEqualToString:@"1"]) {
+                _shopArray = responseObject[@"allShop"];
+                [self.tableView reloadData];
+            }
+            else{
+                [Util toastWithView:self.view AndText:@"获取全部商店失败"];
+            }
         }
         else{
             [Util toastWithView:self.view AndText:@"获取全部商店失败"];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"获取商店信息失败 %@", error);
+        NSLog(@"获取全部商店信息失败 %@", error);
+        self.loading = NO;
+        [_hud hideAnimated:YES];
         [Util toastWithView:self.view AndText:@"网络连接异常"];
     }];
 }
 
 
+#pragma mark - 无数据处理
+//上标题（返回标题）
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"暂无分店";
+    UIFont *font = [UIFont systemFontOfSize:17];
+    UIColor *color = [UIColor lightGrayColor];
+    NSMutableDictionary *attribult = [NSMutableDictionary new];
+    [attribult setObject:font forKey:NSFontAttributeName];
+    [attribult setObject:color forKey:NSForegroundColorAttributeName];
+    return [[NSAttributedString alloc] initWithString:text attributes:attribult];
+}
+
+//详情标题（返回详情标题）
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"点击重新加载";
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    [attributes setObject:[UIFont systemFontOfSize:17] forKey:NSFontAttributeName];
+    [attributes setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+    [attributes setValue:paragraph forKey:NSParagraphStyleAttributeName];
+    NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    return attributeString;
+}
+
+
+//让图片进行旋转
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D: CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0) ];
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
+}
+
+//返回单张图片
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    if (self.isLoading) {
+        return [UIImage imageNamed:@"loading_imgBlue_78x78"];
+    } else {
+        return [UIImage imageNamed:@"暂无数据"];
+    }
+}
+
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+- (BOOL)emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView
+{
+    return self.isLoading;
+}
+//点击view加载三秒后停止
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
+{
+    self.loading = YES;
+    
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //    });
+    [self postGetBossShopAllShop];
+}
 
 
 @end

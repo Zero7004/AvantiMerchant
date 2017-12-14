@@ -14,7 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "AddressPickerView.h"
 #import "JSBridgeVC.h"
-
+#import "WTPayManager.h"
 
 @interface registrationShopViewController ()<UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate, UINavigationControllerDelegate,AddressPickerViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>{
 
@@ -748,6 +748,12 @@
 #pragma mark - 提交 -
 //提交店铺
 -(void)submitBtnClick{
+    
+    WTPayManager *payManager = [[WTPayManager alloc] init];
+    [self.navigationController pushViewController:payManager animated:YES];
+    
+    
+    
     if (_shopName.text.length == 0) {
         [Util toastWithView:self.navigationController.view AndText:@"请输入商家名称"];
         return ;
